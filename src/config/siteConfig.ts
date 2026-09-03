@@ -40,17 +40,17 @@ const pages = resolvePageToggles({
 
 export const siteConfig: SiteConfig = {
 	// 站点标题
-	title: "cxz小屋",
+	title: "cxz的个人博客",
 
 	// 站点副标题
-	subtitle: "czx的个人博客",
+	subtitle: "记录技术，项目开发路线，长期的思考",
 
 	// 站点 URL
 	site_url: "https://07020725.xyz",
 
 	// 站点描述
 	description:
-		"这是我的第一个博客",
+		"欢迎来到我的个人博客",
 
 	// 站点关键词
 	keywords: [

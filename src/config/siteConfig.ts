@@ -40,7 +40,7 @@ const pages = resolvePageToggles({
 
 export const siteConfig: SiteConfig = {
 	// 站点标题
-	title: "cxz的个人博客",
+	title: "普通人类的个人博客",
 
 	// 站点副标题
 	subtitle: "记录技术，项目开发路线，长期的思考",
@@ -115,7 +115,7 @@ export const siteConfig: SiteConfig = {
 			alt: "🍀",
 		},
 		// 导航栏标题
-		title: "cxz小屋",
+		title: "普通人类",
 		// 全宽导航栏，导航栏是否占满屏幕宽度
 		widthFull: false,
 		// 导航菜单对齐方式，left：左对齐，center：居中

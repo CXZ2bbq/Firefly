@@ -4,6 +4,10 @@ published: 2026-09-03
 description: "一个完全不懂编程的小白，花了一整天才发现Cloudflare部署失败的根本原因——原来是我选错了入口！"
 tags: ["Cloudflare", "部署", "踩坑", "博客"]
 image: ./maomao.avif
+category: 普通的日常
+author: 本人
+series: "普通人类建站辛酸史"
+seriesOrder: 1
 ---
 
 ## 写在前面

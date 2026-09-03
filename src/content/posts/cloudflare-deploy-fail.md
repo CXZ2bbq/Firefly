@@ -3,6 +3,7 @@ title: "小白部署博客的血泪史：为什么我的Cloudflare一直失败�
 published: 2026-09-03
 description: "一个完全不懂编程的小白，花了一整天才发现Cloudflare部署失败的根本原因——原来是我选错了入口！"
 tags: ["Cloudflare", "部署", "踩坑", "博客"]
+image: ./maomao.avif
 ---
 
 ## 写在前面
@@ -56,6 +57,7 @@ tags: ["Cloudflare", "部署", "踩坑", "博客"]
 ---
 
 ## 正确的做法
+![正确打开Pages的截图](./Pages.avif)
 
 在 Cloudflare 控制台的 **Workers & Pages** 页面，不要直接点"创建 Worker"，而是：
 

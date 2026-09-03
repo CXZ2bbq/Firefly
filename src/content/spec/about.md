@@ -1,27 +1,47 @@
 # 关于我 / About Me
 
-你好！我是 **夏叶** ，一个在数字世界中默默无闻的一片叶子。
+你好！我是 **普通人类**，一个刚刚踏上网页开发学习之路的小白。
 
-## 🛠️ 关于本站
-
-这个网站使用 **Astro** 框架构建，采用了 [Firefly](https://github.com/CuteLeaf/Firefly) 模板，Firefly 是基于 [Fuwari](https://github.com/saicaca/fuwari) 的二次开发。
-
-**Firefly** 是一款基于 Astro 框架和 Fuwari 模板开发的清新美观且现代化个人博客主题模板，专为技术爱好者和内容创作者设计。该主题融合了现代 Web 技术栈，提供了丰富的功能模块和高度可定制的界面，让您能够轻松打造出专业且美观的个人博客网站。
-
-
-**🖥️在线预览： [Firefly - Demo site](https://firefly.cuteleaf.cn/)**
-
-**📝Firefly使用文档： [https://docs-firefly.cuteleaf.cn](https://docs-firefly.cuteleaf.cn/)**
-
-**⭐Firefly开源地址：[https://github.com/CuteLeaf/Firefly](https://github.com/CuteLeaf/Firefly)** 
-
-**⭐Fuwari开源地址：[https://github.com/saicaca/fuwari](https://github.com/saicaca/fuwari)**
-
-::github{repo="CuteLeaf/Firefly"}
-
-::github{repo="saicaca/fuwari"}
+这个博客是我从零开始，一步步搭建起来的第一个个人站点。虽然现在的我还只是一个会复制粘贴、跟着教程一步步走的初学者，但看着自己的博客成功上线，那种成就感真的无法形容。
 
 ---
 
-*感谢你的来访！希望在这里能找到对你有用的内容！*
+## 🚀 我的学习之路
 
+一切始于一个简单的想法：**我想拥有一个属于自己的网站。**
+
+作为一个完全不懂编程的小白，我连 Git 和 Node.js 是什么都不知道。但从 Fork 仓库、安装环境、本地预览，到部署到 Cloudflare、绑定域名——这一路踩了不少坑，也学到了很多。
+
+现在的我，至少学会了：
+- 使用 Git 和 GitHub 管理代码
+- 用 VS Code 修改配置文件
+- 通过 Cloudflare Pages 自动部署
+- 用 Markdown 写博客文章
+
+虽然这些都还只是最基础的操作，但对我来说已经是巨大的进步了。
+
+---
+
+## 🛠️ 关于本站
+
+这个网站基于 **Firefly** 主题模板搭建，这是一个基于 Astro 框架和 Fuwari 的二次开发作品。
+
+作为一个学习项目，我通过修改配置文件、调整样式、添加内容，逐渐把这个模板变成了属于自己的博客。未来我会继续学习，慢慢加入更多自己的东西。
+
+---
+
+## 📌 为什么写博客？
+
+- 记录自己的学习过程
+- 分享踩坑经验和解决方法
+- 督促自己持续学习和输出
+
+如果你也是正在学习编程的新手，欢迎一起交流进步！
+
+---
+
+## 🔗 推荐资源
+
+- 📖 [Firefly 使用文档](https://docs-firefly.cuteleaf.cn)
+- ⭐ [Firefly 开源地址](https://github.com/CuteLeaf/Firefly)
+- ⭐ [Fuwari 开源地址](https://github.com/saicaca/fuwari)

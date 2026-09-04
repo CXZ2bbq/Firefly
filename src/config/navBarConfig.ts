@@ -15,7 +15,8 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 
 	// 主页
 	links.push(LinkPresets.Home);
-
+    // ↓↓↓ 新增这一行 ↓↓↓
+    links.push(LinkPresets.Stardew);
 	// 文章及其子菜单
 	links.push({
 		name: "文章",
@@ -153,6 +154,11 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		url: "/",
 		icon: "material-symbols:home",
 	},
+	Stardew: {
+    name: "星露谷信纸",
+    url: "/stardew/",
+    icon: "material-symbols:mail",
+  },
 	Archive: {
 		name: "归档",
 		url: "/archive/",

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<!-- saved from url=(0025)https://star.flydev.asia/ -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stardew Valley信纸生成</title>
+    <link rel="stylesheet" href="/stardew/style.css">
+    <link rel="icon" type="image/png" href="./Stardew Valley信纸生成_files/cake.png">
+</head>
+<body>
+    <div class="container">
+        <h1>🌾 Stardew Valley信纸生成 🌾</h1>
+
+        <!-- 编辑器区域 -->
+        <div class="editor-container">
+            <!-- 信纸选择 -->
+            <div class="section">
+                <div class="section-title">信纸选择</div>
+                <label for="mail-img">选择信纸模板：</label>
+                <select id="mail-img">
+                    <option value="cropped_image" selected="">普通信纸</option>
+                    <option value="cropped_image_1">桑迪</option>
+                    <option value="cropped_image_2">法师</option>
+                    <option value="cropped_image_3">科罗布斯</option>
+                    <option value="cropped_image_4">Joja</option>
+                    <option value="JunimoNoteMobile">Junimo笔记</option>
+                    <option value="textBox">文本框</option>
+                </select>
+                
+                <div class="button-group" style="margin-top: 10px;">
+                    <button class="upload-btn" onclick="uploadImage(&#39;mail&#39;)">上传自定义信纸</button>
+                </div>
+                
+                <div id="mail-custom-list" class="mail-custom-list"></div>
+            </div>
+
+            <!-- 对话框内容（文本框模式） -->
+            <div class="section" id="dialog-section" style="display: none;">
+                <div class="section-title">对话框内容</div>
+                
+                <label for="body">对话内容：</label>
+                <textarea id="body" placeholder="输入对话内容，仅支持一句话..." style="min-height: 60px;"></textarea>
+                
+                <div style="margin-top: 10px;">
+                    <label for="textbox-font-size">文本框字体大小：</label>
+                    <div class="range-group">
+                        <input type="range" id="textbox-font-size" min="12" max="40" value="12">
+                        <span id="textbox-font-size-value">12</span>px
+                    </div>
+                </div>
+                
+                <p style="color: #666; font-size: 0.9em; margin-top: 5px;">
+                    💡 提示：文本框模式只支持输入一句话
+                </p>
+
+                <div class="margin-settings-section">
+                    <div class="section-title">边距设置</div>
+                    
+                    <label for="margin-top">上边距：</label>
+                    <div class="range-group">
+                        <input type="range" id="margin-top" min="-20" max="150" value="-20" disabled="">
+                        <span id="margin-top-value" class="margin-value-textbox"></span>px
+                    </div>
+
+                    <label for="margin-bottom">下边距：</label>
+                    <div class="range-group">
+                        <input type="range" id="margin-bottom" min="20" max="150" value="60">
+                        <span id="margin-bottom-value" class="margin-value-textbox"></span>px
+                    </div>
+
+                    <label for="margin-h">水平边距：</label>
+                    <div class="range-group">
+                        <input type="range" id="margin-h" min="20" max="150" value="40">
+                        <span id="margin-h-value" class="margin-value-textbox"></span>px
+                    </div>
+
+                    <div class="color调节-section">
+                        <div class="section-title">统一颜色调节</div>
+                        <p style="color: #666; font-size: 0.9em; margin-bottom: 10px;">
+                            💡 点击按钮统一调节所有内容颜色
+                        </p>
+                        <div class="color-buttons-group">
+                            <button class="color-settings" id="unified-color-btn">🎨 统一颜色调节</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 信件内容（普通信纸模式） -->
+            <div class="section" id="letter-section" style="display: block;">
+                <div class="section-title">信件内容</div>
+                
+                <label for="title">标题：</label>
+                <input type="text" id="title" placeholder="输入信件标题" value="致亲爱的农夫">
+
+                <label for="body-letter">正文：</label>
+                <textarea id="body-letter" placeholder="输入信件正文内容...">希望你在农场一切安好。最近收获颇丰，记得来我的商店看看！</textarea>
+
+                <label for="signature">署名：</label>
+                <input type="text" id="signature" placeholder="输入署名" value="—— 你的朋友">
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="signature-align-left">
+                    <label for="signature-align-left" style="margin: 0;">署名左对齐</label>
+                </div>
+
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #e8d4b8;">
+                    <div class="section-title" style="border: none; padding: 0; margin-bottom: 10px;">边距设置</div>
+                    
+                    <label for="margin-top">上边距：</label>
+                    <div class="range-group">
+                        <input type="range" id="margin-top" min="20" max="150" value="60">
+                        <span id="margin-top-value" class="margin-value-letter"></span>px
+                    </div>
+
+                    <label for="margin-bottom">下边距：</label>
+                    <div class="range-group">
+                        <input type="range" id="margin-bottom" min="20" max="150" value="60">
+                        <span id="margin-bottom-value" class="margin-value-letter"></span>px
+                    </div>
+
+                    <label for="margin-h">水平边距：</label>
+                    <div class="range-group">
+                        <input type="range" id="margin-h" min="20" max="150" value="40">
+                        <span id="margin-h-value" class="margin-value-letter"></span>px
+                    </div>
+
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #e8d4b8;">
+                        <div class="section-title" style="border: none; padding: 0; margin-bottom: 10px;">统一颜色调节</div>
+                        <p style="color: #666; font-size: 0.9em; margin-bottom: 10px;">
+                            💡 点击按钮统一调节所有内容颜色
+                        </p>
+                        <div class="color-buttons-group">
+                            <button class="color-settings" id="unified-color-btn">🎨 统一颜色调节</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 礼物设置（普通信纸模式） -->
+            <div class="section" id="gift-section" style="display: block;">
+                <div class="section-title">礼物设置</div>
+                
+                <label>选择礼物图标（可多选）：</label>
+                <div id="gift-img-list" class="gift-selector"><div class="gift-img-item" data-key="none" title="无"><span style="font-size:22px;color:#bbb;">无</span></div><div class="gift-img-item" data-key="cake" title="蛋糕" style="position: relative;"><img src="./Stardew Valley信纸生成_files/cake.png" alt="蛋糕" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="ticket" title="票券" style="position: relative;"><img src="./Stardew Valley信纸生成_files/ticket.png" alt="票券" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="Golden_Pumpkin" title="黄金南瓜" style="position: relative;"><img src="./Stardew Valley信纸生成_files/Golden_Pumpkin.png" alt="黄金南瓜" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="Orange" title="橙子" style="position: relative;"><img src="./Stardew Valley信纸生成_files/Orange.png" alt="橙子" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="pumpkin" title="南瓜" style="position: relative;"><img src="./Stardew Valley信纸生成_files/pumpkin.png" alt="南瓜" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="fish" title="鱼" style="position: relative;"><img src="./Stardew Valley信纸生成_files/fish.png" alt="鱼" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="Beer" title="啤酒" style="position: relative;"><img src="./Stardew Valley信纸生成_files/Beer.png" alt="啤酒" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="book" title="书" style="position: relative;"><img src="./Stardew Valley信纸生成_files/book.png" alt="书" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="beer1" title="啤酒1" style="position: relative;"><img src="./Stardew Valley信纸生成_files/beer1.png" alt="啤酒1" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="chuansong" title="传送" style="position: relative;"><img src="./Stardew Valley信纸生成_files/chuansong.png" alt="传送" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="Clam" title="蛤蜊" style="position: relative;"><img src="./Stardew Valley信纸生成_files/Clam.png" alt="蛤蜊" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="hanber" title="汉伯" style="position: relative;"><img src="./Stardew Valley信纸生成_files/hanber.png" alt="汉伯" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="jinding" title="金锭" style="position: relative;"><img src="./Stardew Valley信纸生成_files/jinding.png" alt="金锭" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="kutou" title="骷髅头" style="position: relative;"><img src="./Stardew Valley信纸生成_files/kutou.png" alt="骷髅头" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="Secret_Note" title="秘密笔记" style="position: relative;"><img src="./Stardew Valley信纸生成_files/Secret_Note.png" alt="秘密笔记" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="shougu" title="手鼓" style="position: relative;"><img src="./Stardew Valley信纸生成_files/shougu.png" alt="手鼓" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="shuijin" title="水晶" style="position: relative;"><img src="./Stardew Valley信纸生成_files/shuijin.png" alt="水晶" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="wucaisuipian" title="五彩碎片" style="position: relative;"><img src="./Stardew Valley信纸生成_files/wucaisuipian.png" alt="五彩碎片" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="xie" title="蟹" style="position: relative;"><img src="./Stardew Valley信纸生成_files/xie.png" alt="蟹" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="yiding" title="铱锭" style="position: relative;"><img src="./Stardew Valley信纸生成_files/yiding.png" alt="铱锭" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div><div class="gift-img-item" data-key="zuanshi" title="钻石" style="position: relative;"><img src="./Stardew Valley信纸生成_files/zuanshi.png" alt="钻石" style="width:100%;height:100%;object-fit:contain;"><div class="gift-img-barrier" style="display:none;position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:10;background:rgba(90,122,43,0.7);border:3px solid #5a7a2b;box-sizing:border-box;"></div></div></div>
+                
+                <div class="button-group" style="margin-top: 10px;">
+                    <button class="upload-btn" onclick="uploadImage(&#39;gift&#39;)">上传自定义礼物</button>
+                </div>
+
+                <label for="gift-text">礼物说明文字：</label>
+                <input type="text" id="gift-text" placeholder="例如：附上一些礼物" value="附上一些礼物">
+
+                <div class="gift-text-position-group">
+                    <label>
+                        <input type="radio" name="gift-text-position" id="gift-text-before" value="before">
+                        文字在前
+                    </label>
+                    <label>
+                        <input type="radio" name="gift-text-position" id="gift-text-after" value="after" checked="">
+                        文字在后
+                    </label>
+                </div>
+
+                <label for="gift-icon-size">礼物图标大小：</label>
+                <div class="range-group">
+                    <input type="range" id="gift-icon-size" min="20" max="80" value="45">
+                    <span id="gift-icon-size-value">45</span>px
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="section">
+                <div class="section-title">操作</div>
+                <div class="button-group">
+                    <button class="save-btn" onclick="window.handleSave()">💾 保存信件图片</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 预览区域 -->
+        <div class="preview-panel">
+            <div class="section-title">预览</div>
+            <canvas id="preview-canvas" width="800" height="449"></canvas>
+            <p style="text-align: center; margin-top: 10px; color: #666; font-size: 0.9em;">
+                提示：调整设置后预览会自动更新
+            </p>
+        </div>
+
+        <!-- 联系我们 -->
+        <div class="contact-link">
+            <button id="contact-link">与我联系</button>
+        </div>
+    </div>
+
+    <!-- 联系弹窗 -->
+    <div id="contact-modal" class="contact-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal">×</button>
+            <h2 style="margin-bottom: 15px; color: #5a3921;">联系我们</h2>
+            <p style="margin-bottom: 10px;">感谢使用星露谷信件生成器！</p>
+            <p style="margin-bottom: 10px;">如有问题或建议，欢迎随时联系。</p>
+            <p style="color: #8b5a2b; font-weight: bold; margin-bottom: 10px;">
+                GitHub: <a href="https://github.com/FlyCatdev" target="_blank" style="color: #8b5a2b; font-weight: bold; text-decoration: underline;">FlyCatDev</a>
+            </p>
+            <p style="color: #8b5a2b; font-weight: bold; margin-bottom: 10px;">
+                微信: wx_yidianxing
+            </p>
+            <p style="margin-top: 15px; margin-bottom: 10px;">
+                <a href="https://www.xiaohongshu.com/user/profile/6583e574000000001b030af2?xsec_token=YBY2FtM5Scq5x_mp4MwgBTZ4yqkIX_SRjlyK_zKNol4uU%3D&amp;xsec_source=app_share&amp;xhsshare=&amp;shareRedId=ODs6M0g6Oz02NzUyOTgwNjdFOTo0Rkw7&amp;apptime=1768125487&amp;share_id=48321f287fdb4bb5b39a1650f563ccfe&amp;share_channel=copy_link" target="_blank" style="color: #d9385a; font-weight: bold; text-decoration: none; padding: 8px 12px; background: #ffe4e9; border-radius: 6px; border: 1px solid #d9385a;">📕 小红书</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="/stardew/script.js"></script>
+    <script>
+        // 字体完全加载和重复渲染的增强机制
+        async function ensureFontRendering() {
+            // 第1次：等待字体基础加载
+            if (window.FontManager && window.FontManager.waitForLoad) {
+                await window.FontManager.waitForLoad();
+            }
+            
+            // 第2次：强制字体渲染测试
+            if (window.FontManager && window.FontManager.forceRender) {
+                await window.FontManager.forceRender();
+            }
+            
+            // 第3次：延迟重绘
+            await new Promise(resolve => setTimeout(resolve, 200));
+            
+            // 第4次：额外的字体渲染测试
+            if (window.FontManager && window.FontManager.forceRender) {
+                await window.FontManager.forceRender();
+            }
+            
+            // 第5次：最终延迟重绘
+            await new Promise(resolve => setTimeout(resolve, 150));
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            // 初始化UI管理器
+            if (window.UIManager && window.UIManager.initialize) {
+                await window.UIManager.initialize();
+            }
+            
+            // 执行多次字体渲染确保完全加载
+            await ensureFontRendering();
+            
+            // 最终更新预览
+            if (window.Renderer && window.Renderer.updatePreview) {
+                await window.Renderer.updatePreview();
+            }
+            
+            // 额外的延迟重绘以确保稳定
+            setTimeout(async () => {
+                if (window.Renderer && window.Renderer.updatePreview) {
+                    await window.Renderer.updatePreview();
+                }
+            }, 300);
+        });
+    </script>
+<script type="module" src="./Stardew Valley信纸生成_files/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;3e0d8f58340641c0b556be7268972b96&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+
+</body></html>

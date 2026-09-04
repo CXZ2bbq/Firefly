@@ -50,7 +50,7 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 			{
 				name: "鹈鹕镇",
 				artist: "Eric.Barone",
-				url: "/assets/music/pelican.town.mp3",
+				url: "/assets/music/pelican.Town.mp3",
 				cover: "/assets/music/cover/tihuzhen.webp",
 				lrc: "",
 			},

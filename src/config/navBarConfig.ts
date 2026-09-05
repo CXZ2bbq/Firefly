@@ -15,8 +15,24 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 
 	// 主页
 	links.push(LinkPresets.Home);
-    // ↓↓↓ 新增这一行 ↓↓↓
-    links.push(LinkPresets.Stardew);
+
+	// 老乡之家及其子菜单（星露谷玩法合集）
+	links.push({
+		name: "老乡之家",
+		url: "#",
+		icon: "material-symbols:cottage",
+		children: [
+			// 星露谷信纸
+			LinkPresets.Stardew,
+
+			// 星露成就页
+			{
+				name: "星露成就",
+				url: "/achievements/",
+				icon: "material-symbols:emoji-events",
+			},
+		],
+	});
 	// 文章及其子菜单
 	links.push({
 		name: "文章",
@@ -88,13 +104,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		children: [
 			// 关于页面
 			LinkPresets.About,
-
-			// 星露成就页
-			{
-				name: "星露成就",
-				url: "/achievements/",
-				icon: "material-symbols:emoji-events",
-			},
 		],
 	});
 

@@ -54,6 +54,27 @@ export const musicPlayerConfig: MusicPlayerConfig = {
 				cover: "/assets/music/cover/tihuzhen.webp",
 				lrc: "",
 			},
+			{
+				name: "Stardew Valley Overture",
+				artist: "ConcernedApe",
+				url: "/assets/music/stardew-valley-overture.mp3",
+				cover: "/assets/music/cover/stardew-ost.webp",
+				lrc: "",
+			},
+			{
+				name: "Cloud Country",
+				artist: "ConcernedApe",
+				url: "/assets/music/cloud-country.mp3",
+				cover: "/assets/music/cover/stardew-ost.webp",
+				lrc: "",
+			},
+			{
+				name: "Summer (Nature's Crescendo)",
+				artist: "ConcernedApe",
+				url: "/assets/music/summer-natures-crescendo.mp3",
+				cover: "/assets/music/cover/stardew-ost.webp",
+				lrc: "",
+			},
 		],
 	},
 };

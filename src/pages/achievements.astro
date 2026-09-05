@@ -1,0 +1,291 @@
+---
+import { Icon } from "astro-icon/components";
+import { getCollection } from "astro:content";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { getEnabledFriends, siteConfig } from "@/config";
+import {
+	getCategoryList,
+	getSortedPosts,
+	getTagList,
+} from "@/utils/content-utils";
+
+const pageTitle = "星露成就";
+const description = "这个博客的星露谷风格成就墙——发文、交朋友、发动态,看着农场一点点长大。";
+
+// ── 站点数据统计 ──────────────────────────────────────────────
+const posts = await getSortedPosts();
+const categories = await getCategoryList();
+const tags = await getTagList();
+const dynamics = await getCollection("dynamic");
+const friends = getEnabledFriends().length;
+const seriesCount = new Set(
+	posts.map((p) => p.data.series).filter(Boolean),
+).size;
+
+// 累计字数(统计口径与侧边栏站点统计一致)
+let totalWords = 0;
+for (const post of posts) {
+	if (post.body) {
+		const text = post.body
+			.replace(/```[\s\S]*?```/g, "")
+			.replace(/`[^`]*`/g, "")
+			.replace(/\s+/g, " ")
+			.trim();
+		const chineseChars = text.match(/[\u4e00-\u9fa5]/g) || [];
+		const englishChars = text.match(/[a-zA-Z]/g) || [];
+		totalWords += chineseChars.length + englishChars.length;
+	}
+}
+
+// 农场经营天数
+const startDate = siteConfig.siteStartDate
+	? new Date(siteConfig.siteStartDate)
+	: new Date("2026-09-03");
+const farmDays = Math.max(
+	1,
+	Math.ceil((Date.now() - startDate.getTime()) / (1000 * 60 * 60 * 24)),
+);
+
+// ── 成就定义 ──────────────────────────────────────────────────
+// 修改 target 即可调整解锁门槛;current 由博客内容实时计算
+type Achievement = {
+	name: string;
+	desc: string;
+	icon: string;
+	current: number;
+	target: number;
+	unit: string;
+};
+
+const achievements: Achievement[] = [
+	{
+		name: "开垦荒地",
+		desc: "发布第一篇文章,农场正式开业!",
+		icon: "material-symbols:grass",
+		current: posts.length,
+		target: 1,
+		unit: "篇",
+	},
+	{
+		name: "勤劳的农夫",
+		desc: "累计发布 10 篇文章。",
+		icon: "material-symbols:agriculture",
+		current: posts.length,
+		target: 10,
+		unit: "篇",
+	},
+	{
+		name: "农场大亨",
+		desc: "累计发布 50 篇文章,名扬星露谷。",
+		icon: "material-symbols:castle",
+		current: posts.length,
+		target: 50,
+		unit: "篇",
+	},
+	{
+		name: "镇上的笔杆子",
+		desc: "累计码字 10,000 字。",
+		icon: "material-symbols:edit-note",
+		current: totalWords,
+		target: 10000,
+		unit: "字",
+	},
+	{
+		name: "社交名流",
+		desc: "收录 5 个友链,和镇民们打成一片。",
+		icon: "material-symbols:group",
+		current: friends,
+		target: 5,
+		unit: "个",
+	},
+	{
+		name: "村里的广播站",
+		desc: "发布 10 条动态,分享日常。",
+		icon: "material-symbols:campaign",
+		current: dynamics.length,
+		target: 10,
+		unit: "条",
+	},
+	{
+		name: "万事通",
+		desc: "文章分类达到 5 个。",
+		icon: "material-symbols:category",
+		current: categories.length,
+		target: 5,
+		unit: "个",
+	},
+	{
+		name: "博物学家",
+		desc: "使用 20 个标签整理文章。",
+		icon: "material-symbols:style",
+		current: tags.length,
+		target: 20,
+		unit: "个",
+	},
+	{
+		name: "长篇连载",
+		desc: "创建 3 个文章系列。",
+		icon: "material-symbols:auto-stories",
+		current: seriesCount,
+		target: 3,
+		unit: "个",
+	},
+	{
+		name: "立足之年",
+		desc: "农场经营满 365 天。",
+		icon: "material-symbols:calendar-month",
+		current: farmDays,
+		target: 365,
+		unit: "天",
+	},
+];
+
+const unlockedCount = achievements.filter(
+	(a) => a.current >= a.target,
+).length;
+
+// 隐藏成就:集齐所有其他成就后解锁
+achievements.push({
+	name: "传奇",
+	desc: "解锁以上全部成就,成为星露谷的传说!",
+	icon: "material-symbols:emoji-events",
+	current: unlockedCount,
+	target: achievements.length,
+	unit: "项",
+});
+
+const total = achievements.length;
+const finalUnlocked = achievements.filter((a) => a.current >= a.target).length;
+
+const formatNumber = (n: number) => n.toLocaleString();
+---
+
+<MainGridLayout title={pageTitle} description={description}>
+	<div class="flex flex-col gap-4 w-full">
+		<!-- 顶部横幅 -->
+		<div class="card-base px-8 py-7 stardew-banner rounded-(--radius-large)">
+			<div class="flex items-center gap-3">
+				<Icon name="material-symbols:emoji-events" class="text-4xl text-amber-300" />
+				<div>
+					<h1 class="text-3xl font-bold text-amber-100 stardew-title">星露成就</h1>
+					<p class="text-sm text-amber-100/70 mt-1">
+						普通人类农场 · 已开垦 {farmDays} 天 · 已解锁 {finalUnlocked} / {total}
+					</p>
+				</div>
+			</div>
+			<p class="text-sm text-amber-100/60 mt-3 leading-relaxed">
+				这里的成就由博客内容实时统计——多发文、多交朋友、多发动态,农场就会慢慢长大。
+			</p>
+		</div>
+
+		<!-- 成就列表 -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+			{
+				achievements.map((a) => {
+					const unlocked = a.current >= a.target;
+					const percent = Math.min(100, Math.round((a.current / a.target) * 100));
+					return (
+						<div
+							class:list={[
+								"card-base px-6 py-5 flex gap-4 items-start rounded-(--radius-large) achievement-card",
+								unlocked ? "unlocked" : "locked",
+							]}
+						>
+							<div
+								class:list={[
+									"shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl",
+									unlocked
+										? "bg-amber-400/15 text-amber-500 dark:text-amber-300"
+										: "bg-neutral-500/10 text-neutral-400 dark:text-neutral-600",
+								]}
+							>
+								<Icon name={unlocked ? a.icon : "material-symbols:lock"} />
+							</div>
+							<div class="flex-1 min-w-0">
+								<div class="flex items-center justify-between gap-2">
+									<span
+										class:list={[
+											"font-bold text-base",
+											unlocked
+												? "text-neutral-900 dark:text-neutral-100"
+												: "text-neutral-500 dark:text-neutral-400",
+										]}
+									>
+										{a.name}
+									</span>
+									<span
+										class:list={[
+											"text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap",
+											unlocked
+												? "bg-amber-400/20 text-amber-600 dark:text-amber-300"
+												: "bg-neutral-500/10 text-neutral-400 dark:text-neutral-500",
+										]}
+									>
+										{unlocked ? "★ 已解锁" : "未解锁"}
+									</span>
+								</div>
+								<p
+									class:list={[
+										"text-sm mt-1 leading-relaxed",
+										unlocked
+											? "text-neutral-600 dark:text-neutral-300"
+											: "text-neutral-400 dark:text-neutral-500",
+									]}
+								>
+									{a.desc}
+								</p>
+								<div class="mt-3 flex items-center gap-3">
+									<div class="flex-1 h-2 rounded-full bg-neutral-500/10 overflow-hidden">
+										<div
+											class:list={[
+												"h-full rounded-full progress-fill",
+												unlocked ? "is-gold" : "",
+											]}
+											style={`width: ${percent}%`}
+										></div>
+									</div>
+									<span class="text-xs text-neutral-400 dark:text-neutral-500 whitespace-nowrap tabular-nums">
+										{formatNumber(Math.min(a.current, a.target))} / {formatNumber(a.target)} {a.unit}
+									</span>
+								</div>
+							</div>
+						</div>
+					);
+				})
+			}
+		</div>
+
+		<p class="text-xs text-neutral-400 dark:text-neutral-600 text-center pb-2">
+			⚡ 成就数据在每次构建时自动更新,解锁时会在这里点亮 ★
+		</p>
+	</div>
+</MainGridLayout>
+
+<style>
+	.stardew-banner {
+		background:
+			radial-gradient(ellipse at 85% -30%, rgba(255, 200, 80, 0.22) 0%, transparent 55%),
+			linear-gradient(135deg, #5d4a2f 0%, #3f3320 100%);
+	}
+
+	.stardew-title {
+		text-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+	}
+
+	.achievement-card.unlocked {
+		border: 2px solid rgba(245, 190, 80, 0.55);
+		box-shadow: 0 0 18px rgba(245, 190, 80, 0.12);
+	}
+
+	.achievement-card.locked {
+		opacity: 0.75;
+	}
+
+	.progress-fill {
+		background-color: var(--primary);
+	}
+
+	.progress-fill.is-gold {
+		background: linear-gradient(90deg, #f0c04c, #e09a2f);
+	}
+</style>

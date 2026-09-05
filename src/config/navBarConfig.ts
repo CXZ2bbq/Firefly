@@ -88,6 +88,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		children: [
 			// 关于页面
 			LinkPresets.About,
+
+			// 星露成就页
+			{
+				name: "星露成就",
+				url: "/achievements/",
+				icon: "material-symbols:emoji-events",
+			},
 		],
 	});
 

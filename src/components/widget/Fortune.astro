@@ -1,0 +1,130 @@
+---
+import { Icon } from "astro-icon/components";
+import WidgetLayout from "@/components/common/WidgetLayout.astro";
+import { getSortedPosts } from "@/utils/content-utils";
+import { getPostUrlBySlug } from "@/utils/url-utils";
+import type { WidgetComponentConfig } from "@/types/config";
+
+interface Props {
+	class?: string;
+	style?: string;
+	widgetConfig?: WidgetComponentConfig;
+}
+
+const { class: className, style, widgetConfig } = Astro.props;
+
+const showTitle = widgetConfig?.showTitle !== false;
+
+// 构建时注入全部文章链接，供"随机寻宝"按钮使用
+const posts = await getSortedPosts();
+const postLinks = posts.map((post) => ({
+	url: getPostUrlBySlug(post.id),
+	title: post.data.title,
+}));
+---
+
+<WidgetLayout name="今日运势" showTitle={showTitle} id="fortune" class={className} style={style}>
+	<div class="flex flex-col gap-2.5 px-1">
+		<div class="flex items-center justify-between">
+			<span id="fortune-stars" class="fortune-stars text-lg tracking-[0.2em] select-none" aria-hidden="true">★★★☆☆</span>
+			<span class="text-xs text-neutral-400 dark:text-neutral-500 flex items-center gap-1">
+				<Icon name="material-symbols:auto-awesome" class="text-sm" aria-hidden="true" />
+				老水车的预言
+			</span>
+		</div>
+		<p id="fortune-text" class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed min-h-10">
+			正在向精灵打听今天的运气……
+		</p>
+		<button
+			id="fortune-btn"
+			type="button"
+			class="btn-plain rounded-lg h-9 flex items-center justify-center gap-2 text-sm font-medium"
+			title="随机前往一篇文章寻宝"
+		>
+			<Icon name="material-symbols:diamond-outline" class="text-(--primary) text-lg" aria-hidden="true" />
+			<span id="fortune-btn-label">随机寻宝</span>
+		</button>
+	</div>
+</WidgetLayout>
+
+<style>
+	.fortune-stars {
+		color: var(--primary);
+	}
+</style>
+
+<script is:inline define:vars={{ postLinks }}>
+	const FORTUNES = [
+		{ level: 5, text: "精灵们今天非常高兴！它们把好运悄悄放进了你的口袋。" },
+		{ level: 5, text: "幸运女神正向你微笑，今天的你运气好到发光！" },
+		{ level: 4, text: "今天运势不错，适合挖矿、钓鱼和开始新项目。" },
+		{ level: 4, text: "昨夜的星星很亮，今日宜冒险，宜种田，宜发文。" },
+		{ level: 3, text: "风平浪静的一天，适合喝杯茶，慢慢读点东西。" },
+		{ level: 3, text: "运势平平，像鹈鹕镇的午后，不咸不淡但很安心。" },
+		{ level: 2, text: "今天的云有点厚，做决定之前多想一步。" },
+		{ level: 2, text: "运气略有下降，小心踩坑，出门记得看脚下的路。" },
+		{ level: 1, text: "精灵们在开派对，没空理你……今天宜躺平。" },
+		{ level: 1, text: "电视里说今天不宜下矿，回床上多睡一会儿吧！" },
+		{ level: 1, text: "乌云聚集……今天的你被诅咒了（幸运 -1），喝杯咖啡压压惊。" },
+	];
+
+	function hashSeed(str) {
+		let hash = 0;
+		for (let i = 0; i < str.length; i++) {
+			hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
+		}
+		return hash;
+	}
+
+	function todayKey() {
+		const d = new Date();
+		return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+	}
+
+	function pickTodayFortune() {
+		const seed = hashSeed(todayKey());
+		return FORTUNES[seed % FORTUNES.length];
+	}
+
+	function renderFortune() {
+		const starsEl = document.getElementById("fortune-stars");
+		const textEl = document.getElementById("fortune-text");
+		const btnLabelEl = document.getElementById("fortune-btn-label");
+		if (!starsEl || !textEl || !btnLabelEl) return;
+
+		const fortune = pickTodayFortune();
+		starsEl.textContent = "★".repeat(fortune.level) + "☆".repeat(5 - fortune.level);
+		textEl.textContent = fortune.text;
+		if (fortune.level >= 4) {
+			btnLabelEl.textContent = "今日宜挖宝 💰";
+		} else if (fortune.level === 3) {
+			btnLabelEl.textContent = "随手翻翻 📖";
+		} else {
+			btnLabelEl.textContent = "逆天改命 🍀";
+		}
+	}
+
+	function goToRandomPost() {
+		if (!postLinks.length) return;
+		const pick = postLinks[Math.floor(Math.random() * postLinks.length)];
+		window.location.href = pick.url;
+	}
+
+	renderFortune();
+
+	// 防止 Swup 切页重跑脚本时重复注册监听器
+	if (!window.__fortuneInit) {
+		window.__fortuneInit = true;
+		document.addEventListener("swup:contentReplaced", () => {
+			setTimeout(renderFortune, 100);
+		});
+	}
+
+	// 事件委托：即使小组件 DOM 被 Swup 替换也能响应点击
+	document.addEventListener("click", (event) => {
+		const target = event.target;
+		if (target instanceof Element && target.closest("#fortune-btn")) {
+			goToRandomPost();
+		}
+	});
+</script>
